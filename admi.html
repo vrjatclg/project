@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Canteen - Admin</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="theme-admin">
+    <header class="app-header">
+      <div class="brand">
+        <img class="brand-logo" src="./assets/canteen.svg" alt="Canteen" />
+        <h1 class="brand-title">Canteen Admin</h1>
+      </div>
+      <nav class="actions">
+        <a href="./index.html" class="btn ghost">Student UI</a>
+        <button id="logoutBtn" class="btn ghost">Logout</button>
+      </nav>
+    </header>
+
+    <main class="container" id="adminApp" hidden>
+      <section class="grid admin-grid">
+        <div class="card">
+          <h2>Orders</h2>
+          <div class="toolbar">
+            <input type="search" id="orderSearch" placeholder="Search by PID, code, status..." />
+            <select id="statusFilter">
+              <option value="">All</option>
+              <option value="PENDING_PAYMENT">Pending Payment</option>
+              <option value="PAID_UNVERIFIED">Paid (Unverified)</option>
+              <option value="VERIFIED">Verified</option>
+              <option value="FULFILLED">Fulfilled</option>
+              <option value="CANCELLED">Cancelled</option>
+            </select>
+            <button id="refreshOrders" class="btn">Refresh</button>
+          </div>
+          <div id="ordersTable" class="table"></div>
+        </div>
+
+        <div class="card">
+          <h2>Verify Payment</h2>
+          <div class="verify">
+            <input id="verifyCodeInput" placeholder="Enter payment code..." />
+            <button id="verifyCodeBtn" class="btn primary">Verify</button>
+          </div>
+          <div id="verifyResult" class="muted small"></div>
+
+          <h3 class="mt">Student Status</h3>
+          <div class="verify">
+            <input id="studentPidInput" placeholder="Enter PID..." />
+            <button id="checkStudentBtn" class="btn">Check</button>
+          </div>
+          <div id="studentStatus" class="muted small"></div>
+          <div class="row gap">
+            <button id="blockStudentBtn" class="btn danger" disabled>Block</button>
+            <button id="unblockStudentBtn" class="btn" disabled>Unblock</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Menu</h2>
+          <div class="toolbar">
+            <button id="addMenuItemBtn" class="btn">Add Item</button>
+          </div>
+          <div id="menuTable" class="table"></div>
+        </div>
+
+        <div class="card">
+          <h2>Settings</h2>
+          <div class="settings">
+            <label class="field">
+              <span>Change Admin Password</span>
+              <input type="password" id="newPassword" placeholder="New password" />
+            </label>
+            <div class="row gap">
+              <button id="changePasswordBtn" class="btn">Update Password</button>
+            </div>
+            <hr />
+            <div class="row spread">
+              <div>
+                <div class="small muted">Auto-block if cancellations in last 24h exceed</div>
+                <strong><span id="cancelThresholdDisplay"></span></strong>
+              </div>
+              <div class="row gap">
+                <button id="decThreshold" class="btn ghost">-</button>
+                <button id="incThreshold" class="btn ghost">+</button>
+              </div>
+            </div>
+            <hr />
+            <div class="row gap">
+              <button id="exportDataBtn" class="btn">Export Data</button>
+              <button id="importDataBtn" class="btn">Import Data</button>
+              <input type="file" id="importFile" accept="application/json" hidden />
+              <button id="resetDataBtn" class="btn danger">Factory Reset</button>
+            </div>
+            <div class="small muted">Tip: Ask your Firebase project admin to reset the admin account password if you lose access.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <main class="container" id="loginView">
+      <section class="card login-card">
+        <h2>Admin Login</h2>
+        <p class="muted small">Default password on first run: admin123</p>
+        <label class="field">
+          <span>Password</span>
+          <input type="password" id="adminPasswordInput" />
+        </label>
+        <div class="row gap">
+          <button id="loginBtn" class="btn primary">Login</button>
+        </div>
+        <div id="loginError" class="error small" hidden>Invalid password</div>
+      </section>
+    </main>
+
+    <!-- Add/Edit Menu Modal -->
+    <dialog id="menuModal" class="modal">
+      <form method="dialog" class="modal-card" id="menuForm">
+        <h3 id="menuModalTitle">Add Menu Item</h3>
+        <input type="hidden" id="menuItemId" />
+        <label class="field">
+          <span>Name</span>
+          <input type="text" id="menuName" required />
+        </label>
+        <label class="field">
+          <span>Price (₹)</span>
+          <input type="number" id="menuPrice" required min="0" step="1" />
+        </label>
+        <label class="field">
+          <span>Image URL</span>
+          <input type="url" id="menuImage" placeholder="https://..." />
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="menuAvailable" checked />
+          <span>Available</span>
+        </label>
+        <div class="modal-actions">
+          <button type="button" class="btn ghost" id="menuCancelBtn">Cancel</button>
+          <button type="submit" class="btn primary">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- Inject your Firebase config -->
+    <script>
+      window.__FIREBASE_CONFIG__ = {
+        apiKey: "AIzaSyA_MrLKnb70PcAY8ZlzbVa3j9_V0kSdNco",
+        authDomain: "time2eat-a3617.firebaseapp.com",
+        projectId: "time2eat-a3617",
+        storageBucket: "time2eat-a3617.appspot.com",
+        messagingSenderId: "793900361194",
+        appId: "1:793900361194:web:41ef3f737738baf37cfe93",
+        measurementId: "G-FWKS97TLJC"
+      };
+    </script>
+
+    <script type="module" src="./js/utils.js"></script>
+    <script type="module" src="./js/storage.js"></script>
+    <script type="module" src="./js/admin.js"></script>
+  </body>
+</html>
