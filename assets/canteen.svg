@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="256" height="256" rx="48" fill="#111217"/>
+  <g filter="url(#shadow)">
+    <circle cx="128" cy="88" r="44" fill="#3b82f6"/>
+    <rect x="56" y="148" width="144" height="52" rx="12" fill="#22c55e"/>
+    <rect x="72" y="156" width="112" height="12" rx="6" fill="#0b0c10" opacity="0.6"/>
+    <rect x="88" y="174" width="80" height="12" rx="6" fill="#0b0c10" opacity="0.6"/>
+  </g>
+  <defs>
+    <filter id="shadow" x="0" y="0" width="256" height="256" filterUnits="userSpaceOnUse">
+      <feOffset dy="4"/>
+      <feGaussianBlur stdDeviation="8"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .3 0"/>
+      <feBlend mode="normal" in="SourceGraphic"/>
+    </filter>
+  </defs>
+</svg>
